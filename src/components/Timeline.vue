@@ -1,0 +1,28 @@
+<script setup lang="ts">
+// every variable defined here will be automaticaly avilible in <template>
+import { ref } from "vue";
+
+const periods = ["Today", "This week", "This month"];
+
+const selectedPeriod = ref("Today");
+
+function selectPeriod (period: string) {
+  console.log(period);
+  selectedPeriod.value = period;
+}
+</script>
+
+<template>
+  <nav class="is-primary panel">
+    {{ selectedPeriod }}
+    <span class="panel-tabs">
+      <a
+        v-for="period of periods"
+        :key="period"
+        @click="selectPeriod(period)"
+      >
+        {{ period }}
+      </a>
+    </span>
+  </nav>
+</template>
