@@ -14,11 +14,12 @@ function selectPeriod (period: string) {
 
 <template>
   <nav class="is-primary panel">
-    {{ selectedPeriod }}
+    <!-- {{ selectedPeriod }} -->
     <span class="panel-tabs">
       <a
         v-for="period of periods"
         :key="period"
+        :class="{'is-active': period === selectedPeriod }"
         @click="selectPeriod(period)"
       >
         {{ period }}
