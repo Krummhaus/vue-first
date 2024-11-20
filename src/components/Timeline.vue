@@ -1,12 +1,16 @@
 <script setup lang="ts">
 // every variable defined here will be automaticaly avilible in <template>
 import { ref, computed } from "vue";
-import { Post, today, thisWeek, thisMonth } from "../posts"
+import { TimelinePost, today, thisWeek, thisMonth } from "../posts"
 import { DateTime } from "luxon";
+import  TimelineItem from './TimelineItem.vue'
+import { usePosts } from "../stores/posts";
 
 // Own type the long way
 // type Period = "Today" | "This week" | "This month"
 // const periods: Period[] = ["Today", "This week", "This month"];
+
+const postsStore = usePosts() 
 
 // Own type short way
 const periods = ["Today", "This week", "This month"] as const;
@@ -15,7 +19,7 @@ type Period = typeof periods[number];
 const selectedPeriod = ref<Period>("Today");
 
 // We can use '.reduce' instead of '.map' + '.filter'
-const posts = computed(() => {
+const posts = computed<TimelinePost[]>(() => {
   return [today, thisWeek, thisMonth]
   .map(post => {
     return {
@@ -41,6 +45,8 @@ function selectPeriod (period: Period) {
 </script>
 
 <template>
+  {{ postsStore.getState().foo }}
+  <button @click="postsStore.updateFoo('bar')">Update</button>
   <nav class="is-primary panel">
     <!-- {{ selectedPeriod }} -->
     <span class="panel-tabs">
@@ -54,9 +60,7 @@ function selectPeriod (period: Period) {
       </a>
     </span>
 
-    <a v-for="post of posts" :key="post.id" class="panel-block">
-      <a>{{  post.title }}</a>
-      <div>{{  post.created.toFormat("d. M. y") }}</div>
-    </a>
+    <TimelineItem v-for="post of posts" :key="post.id" :post="post" />
+
   </nav>
 </template>
