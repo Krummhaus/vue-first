@@ -4,6 +4,7 @@ import { ref, computed } from "vue";
 import { TimelinePost, today, thisWeek, thisMonth } from "../posts"
 import { DateTime } from "luxon";
 import  TimelineItem from './TimelineItem.vue'
+// import { usePosts } from "../stores/NoPINIAposts";
 import { usePosts } from "../stores/posts";
 
 // Own type the long way
@@ -45,7 +46,7 @@ function selectPeriod (period: Period) {
 </script>
 
 <template>
-  {{ postsStore.getState().foo }}
+  {{ postsStore.foo }}
   <button @click="postsStore.updateFoo('bar')">Update</button>
   <nav class="is-primary panel">
     <!-- {{ selectedPeriod }} -->

@@ -1,36 +1,19 @@
-import { reactive, readonly } from "vue"
-
-// ref number, string
-// computed
-// reactive {}, Map, Set
+// Implementation USING PINIA 'npm instll pinia'
+import { defineStore } from "pinia"
 
 interface PostsState {
     foo: string
 }
- 
-export class PostsStore {
-    #state: PostsState
 
-    constructor () {
-        this.#state = reactive<PostsState>({
-            foo: 'foo'
-        })
+export const usePosts = defineStore("posts", {
+    state: (): PostsState => ({
+        foo: "foo"
+    }),
+
+    actions: {
+        updateFoo (foo: string) {
+            // this.$state.foo = foo
+            this.foo = foo // same expression as above
+        }
     }
-
-    getState () {
-        return readonly(this.#state)
-    }
-
-    updateFoo (foo: string){
-        this.#state.foo = foo
-    }
-}
-
-const store = new PostsStore()
-
-// store.updateFoo("bar")
-
-// Use functions or inject/provide
-export function usePosts () {
-    return store 
-}
+})
