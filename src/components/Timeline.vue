@@ -21,8 +21,14 @@ const selectedPeriod = ref<Period>("Today");
 
 // We can use '.reduce' instead of '.map' + '.filter'
 const posts = computed<TimelinePost[]>(() => {
-  return [today, thisWeek, thisMonth]
-  .map(post => {
+  return postsStore.ids
+  .map(id => {
+    const post = postsStore.all.get(id)
+
+    if (!post) {
+      throw Error(`Post with id of ${id} was not found`);
+    }
+
     return {
       ...post,
       created: DateTime.fromISO(post.created)
@@ -46,8 +52,6 @@ function selectPeriod (period: Period) {
 </script>
 
 <template>
-  {{ postsStore.foo }}
-  <button @click="postsStore.updateFoo('bar')">Update</button>
   <nav class="is-primary panel">
     <!-- {{ selectedPeriod }} -->
     <span class="panel-tabs">
